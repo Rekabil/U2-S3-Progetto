@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUDAZON</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a href="/index.html" class="navbar-brand">CRUDAZON</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/post.html">Post Your AD</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <h1 class="text-center">Modify Ad</h1>
+    <div class="container">
+      <form>
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label">Name your Ad</label>
+          <input id="title" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label">image URL</label>
+          <input id="imgUrl" type="url" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label">Description</label>
+          <input id="desc" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label">Price</label>
+          <input id="price" type="number" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label">The Brand of your service</label>
+          <input id="brand" type="text" class="form-control" />
+        </div>
+        <button class="btn btn-outline-secondary" onclick="modifyAD(event)">Modify the Ad</button>
+        <button class="btn btn-outline-secondary" onclick="removeAD(event)">Remove The Ad</button>
+        <button class="btn btn-outline-secondary" onclick="goBack(event)">Go Back</button>
+      </form>
+    </div>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    window.onload = function () {
+      const id = localStorage.getItem("id");
+      fetch("https://striveschool-api.herokuapp.com/api/product/" + id, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4NjI4M2MwMzRmZjAwMTQwM2Y1NGQiLCJpYXQiOjE2OTI5NTExNzEsImV4cCI6MTY5NDE2MDc3MX0.Ouzrt_nTU38lQEiSNa8Ahu3wqb7V5sfuEzvUA-lOy6U",
+        },
+      })
+        .then((responseobj) => responseobj.json())
+        .then((obj) => {
+          const title = document.getElementById("title");
+          title.value = obj.name;
+          const img = document.getElementById("imgUrl");
+          img.value = obj.imageUrl;
+          const desc = document.getElementById("desc");
+          desc.value = obj.description;
+          const price = document.getElementById("price");
+          price.value = obj.price;
+          const brand = document.getElementById("brand");
+          brand.value = obj.brand;
+        });
+    };
+  </script>
+  <script src="script.js"></script>
+</html>

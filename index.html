@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUDAZON</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a href="/index.html" class="navbar-brand">CRUDAZON</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/post.html">Post Your AD</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="d-flex justify-content-center mt-4">
+      <div id="loader" class="spinner-border text-primary" role="status" style="width: 7rem; height: 7rem"></div>
+    </div>
+    <div class="container mt-4">
+      <div class="row row-col-4 row-col-lg-3 justify-content-center g-2"></div>
+    </div>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    window.onload = function () {
+      fetch("https://striveschool-api.herokuapp.com/api/product/", {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4NjI4M2MwMzRmZjAwMTQwM2Y1NGQiLCJpYXQiOjE2OTI5NTExNzEsImV4cCI6MTY5NDE2MDc3MX0.Ouzrt_nTU38lQEiSNa8Ahu3wqb7V5sfuEzvUA-lOy6U",
+        },
+      })
+        .then((responseobj) => responseobj.json())
+        .then((productObj) => {
+          const row = document.querySelector(".row");
+          productObj.forEach((sale) => {
+            const col = document.createElement("div");
+            col.className = "col";
+            col.innerHTML = `<div class='card' style='width: 18rem;'><img class='card-img-top w-100' src=${sale.imageUrl}>
+        <div class='card-body'>
+        <h4 class='card-title'>${sale.name}</h4>
+        <p class='card-text'>${sale.description}</p>
+        <div class='d-flex justify-content-between align-items-center'>
+        <div class='btn-group'>
+        <button id='${sale._id}' class='btn btn-sm btn-outline-secondary' onclick='info(this)' >Visualizza</button>
+<button id='${sale._id}' class='btn btn-sm btn-outline-secondary' onclick='modify(this)'>Modifica</button>
+        </div>
+        <small class='text-muted'>${sale.price}$</small>
+        </div>
+        </div>
+        </div>
+        `;
+            row.appendChild(col);
+          });
+          document.getElementById("loader").style.display = "none";
+        });
+    };
+  </script>
+  <script src="script.js"></script>
+</html>
